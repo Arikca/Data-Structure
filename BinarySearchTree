@@ -1,0 +1,117 @@
+import java.util.LinkedList;
+import java.util.*;
+import java.util.Stack;
+
+
+public class BinarySearchTree{
+    static class Node{
+        int data;
+        Node right, left;
+
+        public Node(int data){
+            this.data= data;
+            right = null;
+            left= null;
+        }
+    }
+    public static void Traverse(Node node){
+        if(node == null){
+            return;
+        }
+
+        Traverse(node.left);
+        Traverse(node.right);
+    }
+    //traversal of binary tree: inorder, preorder, postorder
+    //inorder traversal: when we print the head node and then its left child and right child
+    public static void Inorder(Node node){
+        if(node == null){
+            return;
+        }
+        Inorder(node.left);
+        System.out.print(node.data+ " ");
+        Inorder(node.right);
+
+    }
+
+    //postorder: when we print the left child first , then right child and the head
+    public static void preorder(Node node){
+        if(node == null){
+            return;
+        }
+        preorder(node.left);
+        preorder(node.right);
+        System.out.print(node.data+" ");
+    }
+
+    //preorder traversal: when we print the parent first, then the left and right child respectively
+    public static void postOrder(Node node){
+        if(node == null){
+            return;
+        }
+        System.out.print(node.data+" ");
+        postOrder(node.left);
+        postOrder(node.right);
+    }
+    //level order traversal, we use a queue for this traversal as we woukd be using the FIFO nature of the queue
+   //we will enque the head then its left and right child respectively
+   //time: O(n) space complexity: O(n)
+    public static void levelOrder(Node node){
+        if(node == null){
+            return;
+        }
+        Queue<Node> queue= new LinkedList<>();
+        queue.add(node);
+        while(!queue.isEmpty()){
+            Node a= queue.peek();
+            queue.remove();
+            System.out.print(a.data+ " ");
+            if(a.left != null) {
+                queue.add(a.left);
+            }
+            if(a.right != null) {
+                queue.add(a.right);
+            }
+        }
+        System.out.println();
+
+    }
+
+    //reverse level order traversal
+    //time: O(n) space complexity: O(n)
+    public static void reverseLevel(Node node){
+        Stack<Node> stack = new Stack<Node>();
+        Queue<Node> queue= new LinkedList<>();
+        queue.add(node);
+        while(!queue.isEmpty()){
+            Node n1= queue.peek();
+            stack.push(n1);
+            queue.remove();
+            if(n1.right != null) {
+                queue.add(n1.right);
+            }
+            if(n1.left != null) {
+                queue.add(n1.left);
+            }
+        }
+        while(!stack.isEmpty()){
+            System.out.print(stack.pop().data+ " ");
+        }
+    }
+
+    //main function
+    public static void main(String[] args){
+        Node a= new Node(1);
+        Node b= new Node(2);
+        Node c= new Node(3);
+        Node d= new Node(4);
+        Node e= new Node(5);
+        a.left =b;
+        a.right =c;
+        b.left =d;
+        b.right= e;
+
+        levelOrder(a);
+        reverseLevel(a);
+    }
+}
